@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFF0F0F0"
+    >
+    <TextView
+        android:id="@+id/tv_news"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:visibility="gone"
+        android:text="今日热闻"/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/white">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:padding="10dp">
+            <TextView
+                android:gravity="center_vertical"
+                android:id="@+id/tv_title"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textColor="@android:color/black"
+                android:text="哈哈电饭哈哈你如dgsdgdfg何案"
+                android:textSize="18sp"/>
+
+            <ImageView
+
+                android:id="@+id/iv_title"
+                android:layout_width="80dp"
+                android:layout_height="70dp"
+                android:scaleType="fitXY"
+                android:background="#fff"
+                />
+
+        </LinearLayout>
+    </FrameLayout>
+
+
+
+
+</LinearLayout>
