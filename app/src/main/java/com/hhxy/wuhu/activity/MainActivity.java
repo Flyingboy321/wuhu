@@ -61,15 +61,18 @@ public class MainActivity extends AppCompatActivity {
 //        作为我们的新闻资讯显示的内容了
 
         loadLatest();
+//        这里会引起内存溢出
+        initBmob();
+
+    }
+//    执行完初始胡bmob后会造成内存泄露什么鬼？
+    public void initBmob(){
 
 //        初始化推送功能
 //        初始化
         Bmob.initialize(this,"d71587be19e32ff96f90f64cafe2a799");
         BmobInstallation.getCurrentInstallation().save();
         BmobPush.startWork(this);
-
-
-
 
     }
 //首先创建一个菜单

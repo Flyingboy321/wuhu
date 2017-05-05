@@ -29,7 +29,7 @@ import java.util.List;
 
 public class TestLoopAdapter extends LoopPagerAdapter {
     private static final String TAG = "TestLoopAdapter";
-//这个可能是但是为了试验用了，没有什么用了，固定的显示当时的图片
+//这个是为了试验用了，没有什么用了，固定的显示当时的图片
     private int[] mImageIds = new int[]{R.mipmap.a, R.mipmap.b, R.mipmap.c, R.mipmap.d, R.mipmap.e};
 
     List<Latest.TopStoriesBean> topStories;

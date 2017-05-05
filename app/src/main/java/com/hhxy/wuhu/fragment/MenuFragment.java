@@ -32,6 +32,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import static cn.bmob.v3.BmobRealTimeData.TAG;
+
 /**
  * Created by Administrator on 2016/11/30.
  */
@@ -73,8 +75,27 @@ public class MenuFragment extends Fragment {
             public void onClick(View v) {
                 switch (v.getId()){
                     case R.id.tv_main:
-//                        此时打开首页，也就是mainactivity中的方法就好。
-                        ((MainActivity)mActivity).loadLatest();
+//                        这里先判断当前显示的Fragment是否是首页的fragment，如果是的，就直接关闭侧边栏
+//                        如果不是就调用loadlatest方法
+
+                        if (
+//                                我们发现在activity中显示的fragment有两个，一个是侧边栏，一个是主activity
+//                                中的Fragment所以选择get（1）
+                                ((MainActivity)mActivity)
+                                .getSupportFragmentManager()
+                                .getFragments().get(1)
+                                .getTag() == "latest") {
+                            ((MainActivity)mActivity).closeMenu();
+                            Log.e(TAG, "onClick:这里表示当前显示的fragment是主fragment不用更新 ");
+
+                        }else{
+                            Log.e(TAG, "onClick:这里表示当前没有调用if中的语句 ");
+
+//                            此时打开首页，也就是mainactivity中的方法就好。
+                            ((MainActivity)mActivity).loadLatest();
+
+                        }
+//
 
                 }
 //                同时关闭我们的侧边栏

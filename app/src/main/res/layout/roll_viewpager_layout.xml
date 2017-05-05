@@ -3,9 +3,9 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <com.jude.rollviewpager.RollPagerView
+    <com.hhxy.wuhu.viewpager.MyViewPager
         android:id="@+id/RPV"
         android:layout_width="match_parent"
         android:layout_height="240dp">
-    </com.jude.rollviewpager.RollPagerView>
+    </com.hhxy.wuhu.viewpager.MyViewPager>
 </LinearLayout>

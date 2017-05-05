@@ -21,6 +21,7 @@ import com.hhxy.wuhu.model.Latest;
 import com.hhxy.wuhu.model.StoriesBean;
 import com.hhxy.wuhu.util.Constent;
 import com.hhxy.wuhu.util.HttpUtils;
+import com.hhxy.wuhu.viewpager.MyViewPager;
 import com.jude.rollviewpager.RollPagerView;
 import com.loopj.android.http.TextHttpResponseHandler;
 
@@ -45,7 +46,7 @@ public class MainFragment extends BaseFragment {
     private String date;
     private boolean isLoading = false;
     private View rollViewPagerLayout;
-    private RollPagerView rollPagerView;
+    private MyViewPager rollPagerView;
     private TestLoopAdapter testLoopAdapter;
     private Handler handler = new Handler();
 
@@ -254,7 +255,7 @@ public class MainFragment extends BaseFragment {
 //    下面在写一个方法来初始化我们的轮播条数据的
     private void initRollViewPager(){
 //        找到我们的rollpagerview对象
-        rollPagerView = (RollPagerView) rollViewPagerLayout.findViewById(R.id.RPV);
+        rollPagerView = (MyViewPager) rollViewPagerLayout.findViewById(R.id.RPV);
         rollPagerView.setPlayDelay(2000);
         rollPagerView.setAnimationDurtion(800);
     }
