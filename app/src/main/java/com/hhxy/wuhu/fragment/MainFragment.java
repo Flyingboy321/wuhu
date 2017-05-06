@@ -1,5 +1,7 @@
 package com.hhxy.wuhu.fragment;
 
+import android.content.Entity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -7,11 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.hhxy.wuhu.R;
+import com.hhxy.wuhu.activity.LatestContentActivity;
 import com.hhxy.wuhu.activity.MainActivity;
 import com.hhxy.wuhu.adapter.MainNewsItemAdapter;
 import com.hhxy.wuhu.adapter.TestLoopAdapter;
@@ -21,6 +26,7 @@ import com.hhxy.wuhu.model.Latest;
 import com.hhxy.wuhu.model.StoriesBean;
 import com.hhxy.wuhu.util.Constent;
 import com.hhxy.wuhu.util.HttpUtils;
+import com.hhxy.wuhu.util.ProUtils;
 import com.hhxy.wuhu.viewpager.MyViewPager;
 import com.jude.rollviewpager.RollPagerView;
 import com.loopj.android.http.TextHttpResponseHandler;
@@ -123,8 +129,33 @@ public class MainFragment extends BaseFragment {
                 }
             }
         });
+        lv_news.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                返回的是一个新闻条目
+                StoriesBean storiesBean = (StoriesBean) parent.getAdapter().getItem(position);
+                String newsId = storiesBean.getId()+"";
+                //                    这里将我们的newsId存到偏好文件中
+//                    首先获得偏好文件类容,第一次访问的时候什么都没有返回空字符
+                String readSequence = ProUtils.getStringFromDefault(getContext(),"read","");
+//                    判断时候包含当前点击的news若果不到含就将当前的数据存储到偏好中
+                if (!readSequence.contains((newsId))){
+                    readSequence = readSequence+newsId+",";
+                }
+//                    将数据存储到文件中
+                ProUtils.putStringToDefault(getContext(),"read",readSequence);
 
 
+                Intent intent = new Intent(getContext(), LatestContentActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("newsID",storiesBean.getId());
+                intent.putExtras(bundle);
+
+                TextView textView = (TextView) view.findViewById(R.id.tv_title);
+                textView.setTextColor(getResources().getColor(R.color.colorPrimary));
+                getContext().startActivity(intent);
+            }
+        });
 
         return view;
     }

@@ -61,39 +61,40 @@ public class MainActivity extends AppCompatActivity {
 //        作为我们的新闻资讯显示的内容了
 
         loadLatest();
-//        这里会引起内存溢出
-        initBmob();
+//        这里会引起内存溢出,所以直接不调用这个方法
+//        initBmob();
 
     }
-//    执行完初始胡bmob后会造成内存泄露什么鬼？
-    public void initBmob(){
+
+    //    执行完初始胡bmob后会造成内存泄露什么鬼？
+    public void initBmob() {
 
 //        初始化推送功能
 //        初始化
-        Bmob.initialize(this,"d71587be19e32ff96f90f64cafe2a799");
+        Bmob.initialize(this, "d71587be19e32ff96f90f64cafe2a799");
         BmobInstallation.getCurrentInstallation().save();
         BmobPush.startWork(this);
 
     }
-//首先创建一个菜单
+
+    //首先创建一个菜单
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main,menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
 //        这里不能这么用
 //        LayoutInflater.from(MainActivity.this).inflate(R.menu.menu_main,menu);
         return true;
     }
-//    下面对menu点击事件监听
 
-
+    //    下面对menu点击事件监听
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 //        我们得到我们点击的菜单的id
         int id = item.getItemId();
-        if (id == R.id.action_mode){
-            Toast.makeText(this,"白天或黑夜设置",Toast.LENGTH_SHORT).show();
-        }else if (id == R.id.action_set){
-            Toast.makeText(this,"设置打开",Toast.LENGTH_SHORT).show();
+        if (id == R.id.action_mode) {
+            Toast.makeText(this, "白天或黑夜设置", Toast.LENGTH_SHORT).show();
+        } else if (id == R.id.action_set) {
+            Toast.makeText(this, "设置打开", Toast.LENGTH_SHORT).show();
 
         }
         return super.onOptionsItemSelected(item);
@@ -135,9 +136,10 @@ public class MainActivity extends AppCompatActivity {
     //在这个方法中我们替换我们的fragment到我们的布局中
     public void loadLatest() {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fl_content,new MainFragment(),"latest").commit();
+                .replace(R.id.fl_content, new MainFragment(), "latest").commit();
     }
-    public void setSwipeRefreshEnable(boolean enable){
+
+    public void setSwipeRefreshEnable(boolean enable) {
         sr.setEnabled(enable);
     }
 
@@ -145,7 +147,8 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setTitle(s);
 
     }
-    public void closeMenu(){
+
+    public void closeMenu() {
         drawerLayout.closeDrawers();
     }
 
@@ -155,22 +158,22 @@ public class MainActivity extends AppCompatActivity {
 //        super.onBackPressed();
 //        头一次点击我们获取点击时间
         long seconTime = System.currentTimeMillis();
-        if (drawerLayout.isDrawerOpen(Gravity.LEFT)){
+        if (drawerLayout.isDrawerOpen(Gravity.LEFT)) {
 //            这里判断如果我们的侧边栏在打开状态的话，就关闭
             closeMenu();
 //            头一次进来的时候我们的secondtime是远远大于Firsttime的，也就是这里满足，我们要弹出通知，
 //            同时我们将我们的系统值赋值给Firsttime
 //            当我们下次在次点击，我们同样或的了系统时间，这样去我们两次点击的时间差，如果满足小于2000
 //            就走else道路
-        }else {
+        } else {
             if (seconTime - firstTime > 2000) {
                 firstTime = seconTime;
                 Snackbar sb = Snackbar.make(frameLayout, "继续点击退出", Snackbar.LENGTH_SHORT);
                 sb.getView().setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                 sb.show();
-                } else {
+            } else {
                 finish();
-                }
+            }
         }
     }
 

@@ -1,12 +1,14 @@
 package com.hhxy.wuhu.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -15,11 +17,13 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.hhxy.wuhu.R;
 import com.hhxy.wuhu.activity.MainActivity;
+import com.hhxy.wuhu.activity.NewsContentActivity;
 import com.hhxy.wuhu.adapter.NewsItemAdapt;
 import com.hhxy.wuhu.model.News;
 import com.hhxy.wuhu.model.StoriesBean;
 import com.hhxy.wuhu.util.Constent;
 import com.hhxy.wuhu.util.HttpUtils;
+import com.hhxy.wuhu.util.ProUtils;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -105,6 +109,30 @@ public class NewsFragment extends BaseFragment {
 
                 }
 
+            }
+        });
+        lv_news.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                在这里处理item的点击事件,获得点击新闻的对象
+                StoriesBean storiesBean = (StoriesBean) parent.getAdapter().getItem(position);
+                int newsId = storiesBean.getId();
+                String newsIds = newsId+"";
+//                首先获得偏好文件类容,第一次访问的时候什么都没有返回空字符
+                String readSequence = ProUtils.getStringFromDefault(getContext(),"read","");
+//                    判断时候包含当前点击的news若果不到含就将当前的数据存储到偏好中
+                if (!readSequence.contains((newsIds))){
+                    readSequence = readSequence+newsIds+",";
+                }
+//                    将数据存储到文件中
+                ProUtils.putStringToDefault(getContext(),"read",readSequence);
+                Intent intent = new Intent(getContext(), NewsContentActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("newsID",newsId);
+                intent.putExtras(bundle);
+                TextView textView = (TextView) view.findViewById(R.id.tv_title2);
+                textView.setTextColor(getResources().getColor(R.color.colorPrimary));
+                getContext().startActivity(intent);
             }
         });
 

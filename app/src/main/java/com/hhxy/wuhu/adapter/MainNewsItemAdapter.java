@@ -16,6 +16,7 @@ import com.hhxy.wuhu.R;
 import com.hhxy.wuhu.activity.LatestContentActivity;
 import com.hhxy.wuhu.model.Latest;
 import com.hhxy.wuhu.model.StoriesBean;
+import com.hhxy.wuhu.util.ProUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.squareup.picasso.Picasso;
@@ -102,32 +103,35 @@ public class MainNewsItemAdapter extends BaseAdapter {
         }
 
             //        设置我们的view显示的标题
+
             viewHolder.tv_title.setText(entitys.get(position).getTitle());
+        String readSequence = ProUtils.getStringFromDefault(context,"read","");
+        if (readSequence.contains((entitys.get(position).getId()+""))){
+            viewHolder.tv_title.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+        }else {
+            viewHolder.tv_title.setTextColor(context.getResources().getColor(R.color.colorDark));
+        }
+
+
 //        这里通过UIL框架请求图片，这里用Picasso来处理图片会更好
 //            imageLoader.displayImage(entitys.get(position).getImages().get(0)
 //                    ,viewHolder.iv_title,displayImageOptions);
         Picasso.with(context).load(entitys.get(position).getImages().get(0)).into(viewHolder.iv_title);
         Log.e(TAG, "getView:这个是图片的URL打印"+entitys.get(position).getImages().get(0));
-            convertView.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-//                    Log.e(TAG, "onclik: 这里打印出position"+position);
-
-                    id = entitys.get(position).getId();
-                    Intent intent  = new Intent(context, LatestContentActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("newsID", id);
-                    intent.putExtras(bundle);
-                    context.startActivity(intent);
-                    Toast.makeText(context,position+""+id,Toast.LENGTH_SHORT).show();
-                }
-            });
-
-
-
-
-
+//        下面的这个方法同样可以实现页面的跳转，不过在逻辑上会产生混乱所以直接屏蔽掉，在mainfragment中进行监听
+//        convertView.setOnClickListener(new View.OnClickListener() {
+//
+//                @Override
+//                public void onClick(View v) {
+//                    id = entitys.get(position).getId();
+//                    Intent intent  = new Intent(context, LatestContentActivity.class);
+//                    Bundle bundle = new Bundle();
+//                    bundle.putInt("newsID", id);
+//                    intent.putExtras(bundle);
+//                    context.startActivity(intent);
+//                    Toast.makeText(context,position+""+id,Toast.LENGTH_SHORT).show();
+//                }
+//            });
         return convertView;
     }
     public  static class ViewHolder {

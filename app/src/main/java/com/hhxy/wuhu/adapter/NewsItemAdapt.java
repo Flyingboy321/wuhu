@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.hhxy.wuhu.R;
 import com.hhxy.wuhu.activity.NewsContentActivity;
 import com.hhxy.wuhu.model.StoriesBean;
+import com.hhxy.wuhu.util.ProUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -78,8 +79,18 @@ public class NewsItemAdapt extends BaseAdapter {
             //        如果我们的convertView不为空的话，我们就复用，先取出我们的viewholder
             viewHolder = (ViewHolder) convertView.getTag();
         }
+
 //       下面就来设置我们的textview   imageview显示的内容了
         viewHolder.tv_title.setText(entitys.get(position).getTitle());
+//        获得xml文件中的字符串
+        String readSequence = ProUtils.getStringFromDefault(context,"read","");
+        if (readSequence.contains(entitys.get(position).getId()+"")){
+//            这里表示消息是点击过得，改变字体颜色
+            viewHolder.tv_title.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+        }else {
+            viewHolder.tv_title.setTextColor(context.getResources().getColor(R.color.colorDark));
+        }
+
 //        这里我们判断当我们的图片的URL不为空的时候才显示
         if (entitys.get(position).getImages()!=null){
 //            这里如果不加判断就会报空指针，，，我们通过看我们的返回数据，会发现我们的
@@ -96,17 +107,17 @@ public class NewsItemAdapt extends BaseAdapter {
 //            做到做到这一步我们的显示基本就完成了，下面就是我们的listview的监听了，我们同样
         }
 //        这里对我们的条目监听
-        convertView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int id = entitys.get(position).getId();
-                Intent intent = new Intent(context, NewsContentActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putInt("newsID",id);
-                intent.putExtras(bundle);
-                context.startActivity(intent);
-            }
-        });
+//        convertView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                int id = entitys.get(position).getId();
+//                Intent intent = new Intent(context, NewsContentActivity.class);
+//                Bundle bundle = new Bundle();
+//                bundle.putInt("newsID",id);
+//                intent.putExtras(bundle);
+//                context.startActivity(intent);
+//            }
+//        });
 
         return convertView;
     }

@@ -22,11 +22,6 @@ public class MyViewPager extends RollPagerView {
     public MyViewPager(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
-//      重写这个函数没有什么卵用
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        getParent().requestDisallowInterceptTouchEvent(true);
-        return super.dispatchTouchEvent(ev);
-    }
+
 
 }
